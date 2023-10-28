@@ -42,3 +42,6 @@ La roadmap guide le développement étape par étape pour implémenter les fonct
 3. Modification des tâches
 4. Suppression de tâches
 
+## Contributeur
+
+Alexandre Klein a développé ce projet
