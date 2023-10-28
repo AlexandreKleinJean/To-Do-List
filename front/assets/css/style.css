@@ -1,0 +1,29 @@
+.task {
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-task {
+    margin-top: 50px;
+}
+
+.task__edit, .task__delete {
+    cursor: pointer;
+}
+
+.task__edit-form {
+    display: none;
+}
+
+.notification-hidden {
+    display: none;
+}
+
+.notification-visible {
+    display: block;
+    color: black;
+    background-color: rgb(233, 73, 73);
+    padding: 5% 5%;
+    margin: 3% auto;
+    text-align: center;
+}
