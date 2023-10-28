@@ -8,9 +8,9 @@ CREATE TABLE "tasks" (
     name TEXT
 );
 
-INSERT INTO "tasks" (name) VALUES ('Créer un fichier index.html');
-INSERT INTO "tasks" (name) VALUES ('Créer le HTML de base');
-INSERT INTO "tasks" (name) VALUES ('Créer un fichier style.css');
+INSERT INTO "tasks" (name) VALUES ('Faire les courses');
+INSERT INTO "tasks" (name) VALUES ('Nourrir le chat');
+INSERT INTO "tasks" (name) VALUES ('Aller au travail');
 
 
 COMMIT;
