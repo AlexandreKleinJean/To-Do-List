@@ -7,7 +7,7 @@ Task.init({
  }, {
     sequelize,
     timestamps: false,
-    tableName: "tasks" // nom de la table
+    tableName: "tasks"
 });
 
 module.exports = Task;

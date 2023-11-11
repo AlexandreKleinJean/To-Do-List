@@ -8,9 +8,7 @@ const taskController = {
 
     listTasks: async function (req, res) {
         try {
-            // Récupérer la liste des taches
             const getTasks = await Task.findAll()
-            // Renvoyer les tasks en json
             res.json(getTasks)
         } catch (e) {
             console.trace(e);
@@ -20,7 +18,6 @@ const taskController = {
 
     createAndAddTask: async function (req, res) {
         try {
-            // Récupérer le nom de la nouvelle task dans le formulaire
             const { name } = req.body;
             if (!name) {
                 throw new Error('name is empty');
@@ -28,7 +25,6 @@ const taskController = {
             const newTask = await Task.create({
                 name
             })
-            // Renvoyer la nouvelle task en json
             res.json(newTask);
         } catch (e) {
             console.trace(e);
@@ -38,10 +34,8 @@ const taskController = {
 
     updateTask: async function (req, res) {
         try {
-            // Récupérer l'id de l'URL
             const taskId = req.params.id;
 
-            // Récupérer la Task avec l'id de l'URL, dans la BDD
             const taskToUpdate = await Task.findByPk(taskId);
             if (!taskToUpdate) {
                 throw new Error('no task with this id');
@@ -54,7 +48,6 @@ const taskController = {
 
             const updatedTask = await taskToUpdate.save();
 
-            // Renvoyer la task mis à jour en json
             res.json(updatedTask);
         } catch (e) {
             console.trace(e);

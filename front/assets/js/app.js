@@ -1,10 +1,10 @@
 const app = {
     init: function () {
 
-        // On charge la liste des tâches depuis l'API
+        // Fetch des tâches
         taskManager.fetchAndInsertTasksFromApi();
 
-        // On écoute la soumission du formulaire d'ajout
+        // Soumission formulaire
         document.querySelector('.create-task').addEventListener('submit', taskManager.handleCreateForm);
 
     }
