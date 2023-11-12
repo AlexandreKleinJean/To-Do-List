@@ -2,6 +2,8 @@
 
 Bienvenue dans l'application Todolist ! Ce projet vous offre la possibilité de gérer vos tâches quotidiennes de manière simple et efficace.
 
+![DocAPI](https://github.com/AlexandreKleinJean/Draw-Art/assets/127552834/f3c9c4a6-00e6-4ffa-aa4b-e2e0849918fb)
+
 ## Introduction
 
 Cette application Todolist est structurée en deux parties : le frontend et le backend (API). Elle vous permet d'ajouter, de modifier, de supprimer et de visualiser les tâches à réaliser.
