@@ -23,10 +23,10 @@ const taskManager = {
     fetchAndInsertTasksFromApi: async function () {
         try {
             const httpResponse = await fetch(`${taskManager.apiEndpoint}/tasks`);
-            const allTasksFromApi: (string)[] = await httpResponse.json();
+            const allTasksFromApi: TaskData[] = await httpResponse.json();
     
             if (allTasksFromApi.length > 0) {
-                allTasksFromApi.forEach((oneTaskFromApi: string) => {
+                allTasksFromApi.forEach((oneTaskFromApi: TaskData) => {
                     console.log(oneTaskFromApi);
                     taskManager.insertTaskInHtml(oneTaskFromApi);
                 });
@@ -205,6 +205,9 @@ const taskManager = {
                     const notification: HTMLDivElement | null = document.querySelector('.notification-hidden')
                     if(notification){
                         notification.classList.add("notification-visible")
+                        setTimeout(() => {
+                            notification.classList.remove("notification-visible");
+                        }, 3000);
                     }
                 } else {
                     console.error('La suppression a échoué');
