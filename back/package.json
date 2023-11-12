@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
+
   "scripts": {
-    "start": "node-dev --notify=false app.js"
+    "start": "node-dev --notify=false dist/app.js"
   },
   "keywords": [],
   "author": "",
