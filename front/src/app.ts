@@ -83,13 +83,13 @@ const taskManager = {
         }
     },
 
-/*-----------------------------Bouton pour supprimer une tâche---------------------------*/
+/*-----------------------------Action du bouton "delete"--------------------------------*/
 
     handleDeleteButton: async function (event: MouseEvent) {
 
-        const selectedTask: HTMLDivElement | null = (event.currentTarget as HTMLDivElement).closest('.task');
-        if(selectedTask){
-            const taskToDeleteId: string | undefined = selectedTask.dataset.id;
+        const taskToDelete: HTMLDivElement | null = (event.currentTarget as HTMLDivElement).closest('.task');
+        if(taskToDelete){
+            const taskToDeleteId: string | undefined = taskToDelete.dataset.id;
 
             try {
                 const httpResponse: Response = await fetch(`${taskManager.apiEndpoint}/tasks/${taskToDeleteId}`, {
@@ -97,7 +97,7 @@ const taskManager = {
                     });
 
                 if(httpResponse.ok) {
-                    (selectedTask as HTMLDivElement).remove();
+                    (taskToDelete as HTMLDivElement).remove();
 
                     const notification: HTMLDivElement | null = document.querySelector('.notification-hidden')
                     if(notification){
@@ -114,48 +114,75 @@ const taskManager = {
         }
     },
 
-/*-----------------------------Bouton pour supprimer une tâche---------------------------*/
+/*------------------------------Input pour modifier une tâche------------------------------*/
 
-    handleEditButton: function (event: MouseEvent) {
-        // On récupére l'élément HTML de la tâche à modifier (template task)
-        const taskHtmlElement = event.currentTarget.closest('.task');
-        // On affiche l'input de modification
-        taskHtmlElement.querySelector('.task__edit-form').style.display = 'flex';
-        // On masque le titre
-        taskHtmlElement.querySelector('.task__name').style.display = 'none';
-    },
-
-    // Bouton modifier formulaire
-    handleEditForm: async function (event) {
+    handleEditForm: async function (event:MouseEvent) {
         event.preventDefault();
     
-        const taskHtmlElement = event.currentTarget.closest('.task');
+        // Tâche sélectionnée
+        const taskToEdit: HTMLDivElement | null = (event.currentTarget as HTMLDivElement).closest('.task');
     
-        const taskFormData = new FormData(event.currentTarget);
+        // Extraction des données entrées dans l'input
+        const taskInputData: FormData = new FormData(event.currentTarget as HTMLFormElement);
     
-        const modifiedTaskId = taskFormData.get('id');
-        console.log(modifiedTaskId);
+        // Création d'un objet avec les données d'input
+        const modifiedTask: TaskData = {
+            id: taskInputData.get('id')?.toString() || '',
+            name: taskInputData.get('name')?.toString() || '',
+        };
     
-        const modifiedTaskData = Object.fromEntries(taskFormData);
-        console.log(modifiedTaskData);
-    
-        const httpResponse = await fetch(`${taskManager.apiEndpoint}/tasks/${modifiedTaskId}`, {
+        // Update Database
+        const httpResponse: Response = await fetch(`${taskManager.apiEndpoint}/tasks/${modifiedTask.id}`, {
             method: "PATCH",
-            body: JSON.stringify(modifiedTaskData),
+            body: JSON.stringify(modifiedTask),
             headers: { "Content-Type": "application/json" }
         });
     
         if (!httpResponse.ok) { return null; }
-    
-        const taskNameToEdit = taskHtmlElement.querySelector('.task__name');
-        taskNameToEdit.textContent = modifiedTaskData.name;
-    
-        taskHtmlElement.querySelector('.task__edit-form').style.display = 'none';
 
-        taskNameToEdit.style.display = 'block';
+        // Update View
+        if(taskToEdit){
+            const taskNameToEdit: HTMLSpanElement | null  = taskToEdit.querySelector('.task__name');
+            if(taskNameToEdit){
+                taskNameToEdit.textContent = modifiedTask.name;
+                taskNameToEdit.style.display = 'block';
+            } else {
+                console.error('Nom de la tâche est inexistant.');
+            }
+    
+            const modifiedTaskInput: HTMLFormElement | null  = taskToEdit.querySelector('.task__edit-form')
+            if(modifiedTaskInput){
+                modifiedTaskInput.style.display = 'none';
+            } else {
+                console.error('Input de la tâche inexistant.');
+            }
     
         const updatedList = await httpResponse.json();
         return updatedList;
+        }
+    },
+
+/*-----------------------------------Action du bouton "edit"--------------------------------*/
+
+    handleEditButton: function (event: MouseEvent) {
+
+        const taskToEdit: HTMLDivElement | null = (event.currentTarget as HTMLDivElement).closest('.task');
+        if(taskToEdit){
+
+            const taskToEditInput: HTMLFormElement | null = taskToEdit.querySelector('.task__edit-form')
+            if(taskToEditInput){
+                taskToEditInput.style.display = 'flex';
+            } else {
+                console.error('Input de la tâche non trouvé.');
+            }
+
+            const taskToEditName: HTMLSpanElement | null = taskToEdit.querySelector('.task__name')
+            if(taskToEditName){
+                taskToEditName.style.display = 'none';
+            } else {
+                console.error('Nom de la tâche non trouvé.');
+            }
+        }
     },
 
     /*----------------------------------Création du formulaire------------------------------*/
