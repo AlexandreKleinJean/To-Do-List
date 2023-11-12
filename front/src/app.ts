@@ -85,7 +85,7 @@ const taskManager = {
 
 /*--------------------------Input pour créer une tâche-------------------------*/
 
-   handleCreateForm: async function (event: MouseEvent) {
+   handleCreateForm: async function (event: SubmitEvent) {
 
     event.preventDefault();
 
@@ -117,7 +117,7 @@ const taskManager = {
 
 /*------------------------------Input pour modifier une tâche------------------------------*/
 
-    handleEditForm: async function (event:MouseEvent) {
+    handleEditForm: async function (event:SubmitEvent) {
         event.preventDefault();
     
         // Tâche sélectionnée
