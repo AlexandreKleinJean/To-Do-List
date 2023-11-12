@@ -37,7 +37,7 @@ const taskManager = {
     },
     
 
-/*------------------------------------Ajout des tâches------------------------------*/
+/*------------------------------------Ajout des tâches dans la View------------------------------*/
 
     insertTaskInHtml: function(taskData: TaskData) {
 
@@ -83,36 +83,37 @@ const taskManager = {
         }
     },
 
-/*-----------------------------Action du bouton "delete"--------------------------------*/
+/*--------------------------Input pour créer une tâche-------------------------*/
 
-    handleDeleteButton: async function (event: MouseEvent) {
+   handleCreateForm: async function (event: MouseEvent) {
 
-        const taskToDelete: HTMLDivElement | null = (event.currentTarget as HTMLDivElement).closest('.task');
-        if(taskToDelete){
-            const taskToDeleteId: string | undefined = taskToDelete.dataset.id;
+    event.preventDefault();
 
-            try {
-                const httpResponse: Response = await fetch(`${taskManager.apiEndpoint}/tasks/${taskToDeleteId}`, {
-                        method: 'DELETE',
-                    });
+    // Extraction des données entrées dans l'input
+    const taskInputData: FormData = new FormData(event.currentTarget as HTMLFormElement);
 
-                if(httpResponse.ok) {
-                    (taskToDelete as HTMLDivElement).remove();
+    // Création d'un objet avec les données d'input
+    const createdTask: TaskData = {
+        id: taskInputData.get('id')?.toString() || '',
+        name: taskInputData.get('name')?.toString() || '',
+    };
 
-                    const notification: HTMLDivElement | null = document.querySelector('.notification-hidden')
-                    if(notification){
-                        notification.classList.add("notification-visible")
-                    }
-                } else {
-                    console.error('La suppression a échoué');
-                }
-                    
-            } catch (error) {
-                console.error(error);
-                return false;
-            }
-        }
-    },
+    // Reset du champs d'input lorsque la tâche est crée
+    (event.currentTarget as HTMLFormElement).reset(); 
+
+    // Ajout Database
+    const httpResponse = await fetch(`${taskManager.apiEndpoint}/tasks`, {
+        method: "POST",
+        body: JSON.stringify(createdTask),
+        headers: { "Content-Type": "application/json" }
+    });
+      
+    const newTask = await httpResponse.json();
+
+    // Ajout View
+    taskManager.insertTaskInHtml(newTask)
+
+    }, 
 
 /*------------------------------Input pour modifier une tâche------------------------------*/
 
@@ -185,29 +186,34 @@ const taskManager = {
         }
     },
 
-    /*----------------------------------Création du formulaire------------------------------*/
+/*-----------------------------Action du bouton "delete"--------------------------------*/
 
-    handleCreateForm: async function (event: MouseEvent) {
+    handleDeleteButton: async function (event: MouseEvent) {
 
-        event.preventDefault();
+        const taskToDelete: HTMLDivElement | null = (event.currentTarget as HTMLDivElement).closest('.task');
+        if(taskToDelete){
+            const taskToDeleteId: string | undefined = taskToDelete.dataset.id;
 
-        const taskFormData = new FormData(event.currentTarget);
-        const newTaskData = Object.fromEntries(taskFormData);
-        console.log("hello :" +newTaskData)
+            try {
+                const httpResponse: Response = await fetch(`${taskManager.apiEndpoint}/tasks/${taskToDeleteId}`, {
+                        method: 'DELETE',
+                    });
 
-        // A travailler
-        event.currentTarget.reset(); 
+                if(httpResponse.ok) {
+                    (taskToDelete as HTMLDivElement).remove();
 
-        const httpResponse = await fetch(`${taskManager.apiEndpoint}/tasks`, {
-            method: "POST",
-            body: JSON.stringify(newTaskData),
-            headers: { "Content-Type": "application/json" }
-        });
-          
-        const createdTask = await httpResponse.json();
-
-        taskManager.insertTaskInHtml(createdTask)
-
-    },
-
+                    const notification: HTMLDivElement | null = document.querySelector('.notification-hidden')
+                    if(notification){
+                        notification.classList.add("notification-visible")
+                    }
+                } else {
+                    console.error('La suppression a échoué');
+                }
+                    
+            } catch (error) {
+                console.error(error);
+                return false;
+            }
+        }
+    }
 };
