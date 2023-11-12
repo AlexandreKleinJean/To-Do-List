@@ -8,6 +8,18 @@ Bienvenue dans l'application Todolist ! Ce projet vous offre la possibilité de 
 
 Cette application Todolist est structurée en deux parties : le frontend et le backend (API). Elle vous permet d'ajouter, de modifier, de supprimer et de visualiser les tâches à réaliser.
 
+## Technologies
+
+Node.js et Express.js pour la gestion du côté serveur.
+
+Sequelize comme ORM (Object-Relational Mapping) pour interagir avec la base de données.
+
+PostgreSQL comme système de gestion de base de données.
+
+HTML, CSS et Typescript pour le développement front-end.
+
+Typescript pour l'ensemble du développement back-end.
+
 ## Caractéristiques
 
 ### Frontend
@@ -24,7 +36,7 @@ Cette application Todolist est structurée en deux parties : le frontend et le b
 
 ### Base de Données
 
-- Suivez les instructions pour créer une nouvelle base de données PostgreSQL en utilisant le [lien d'initialisation de la base de données](https://example.com/database-init).
+- Créer une nouvelle base de données PostgreSQL dans votre environnement local.
 - Importez les tables et les données d'exemple à l'aide du fichier SQL dans le répertoire `back/data/table.sql`.
 
 ### Démarrage de l'API
@@ -36,8 +48,6 @@ Pour lancer l'API :
 3. Lancez le serveur Node.js avec `npm run start`.
 
 ## Fonctionnalités
-
-La roadmap guide le développement étape par étape pour implémenter les fonctionnalités clés de l'application :
 
 1. Récupération des tâches
 2. Ajout de tâches
